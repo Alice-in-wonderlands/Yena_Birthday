@@ -1,218 +1,97 @@
 <!doctype html>
-<html lang="ko">
+<html lang="vi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>생일 축하해, 예나야! 🎂</title>
+  <title>Chúc mừng sinh nhật bé Yena 🎂</title>
   <style>
-    :root{--bg:#ffeef8;--card:#ffffff;--accent:#7cc7ff}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
-    body{background:linear-gradient(180deg,#fff 0%,#ffeef8 60%);display:flex;align-items:center;justify-content:center;padding:24px}
-    .stage{width:100%;max-width:920px;background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.12);padding:26px;position:relative;overflow:hidden}
-    header{display:flex;gap:18px;align-items:center}
-    .avatar{width:120px;height:120px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,#fff,#f7fbff);box-shadow:0 6px 18px rgba(0,0,0,.06);flex:0 0 120px}
-    /* cute minimal "Cinnamoroll-inspired" SVG (original, generic puppy design) */
-    .title{flex:1}
-    h1{margin:0;font-size:28px;color:#263149}
-    p.lead{margin:6px 0 0;color:#5b6778}
-    main{display:flex;gap:22px;margin-top:22px;align-items:flex-start}
-    .left{flex:1}
-    .card{background:linear-gradient(180deg,#fff,#fbfbff);padding:18px;border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.04)}
-    .cake-wrap{display:flex;flex-direction:column;align-items:center;padding:12px}
-    .cake{width:220px;height:160px;position:relative;cursor:pointer}
-    .layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:12px}
-    .layer.one{bottom:6px;width:200px;height:70px;background:#ffd0e8}
-    .layer.two{bottom:70px;width:180px;height:60px;background:#fff0f8}
-    .icing{position:absolute;left:50%;transform:translateX(-50%);bottom:120px;width:160px;height:36px;background:#ffd0e8;border-radius:18px}
-    .candle{position:absolute;left:50%;transform:translateX(-50%);bottom:156px;width:10px;height:36px;background:#ffcc66;border-radius:4px}
-    .flame{position:absolute;left:50%;transform:translateX(-50%);bottom:192px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1a8,#ffb85a);box-shadow:0 6px 12px rgba(255,180,70,.28)}
-    .hint{font-size:13px;color:#7b8794;margin-top:10px}
-    .btns{display:flex;gap:10px;margin-top:12px}
-    button{padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:#fff;cursor:pointer;box-shadow:0 6px 14px rgba(124,199,255,.18)}
-    .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,0.0),rgba(255,236,246,0.85));display:none;align-items:center;justify-content:center;flex-direction:column;z-index:40}
-    .overlay.show{display:flex;animation:fadeIn .45s}
-    @keyframes fadeIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
-    .message{font-size:34px;font-weight:700;color:#4b3a63;text-shadow:0 6px 30px rgba(203,144,214,.18);margin-bottom:8px}
-    .sub{font-size:18px;color:#5b6778}
-    /* confetti particles */
-    .confetti{position:absolute;inset:0;pointer-events:none;z-index:45}
-    .confetti i{position:absolute;width:12px;height:18px;opacity:0;transform:translateY(-40px) rotate(0deg);}
-    /* footer */
-    footer{display:flex;justify-content:space-between;align-items:center;margin-top:18px;color:#8b95a4;font-size:13px}
-    /* small responsive */
-    @media(max-width:720px){.title h1{font-size:22px}.avatar{width:92px;height:92px;border-radius:14px}.cake{width:180px;height:130px}}
+    :root{--bg:#fff6fc;--card:#ffffff;--accent:#7cc7ff}
+    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Arial,sans-serif;background:var(--bg);}
+    .stage{width:100%;max-width:900px;margin:auto;padding:24px;display:none;flex-direction:column;gap:18px;}
+    header{display:flex;align-items:center;gap:16px;}
+    .avatar{width:100px;height:100px;border-radius:20px;background:linear-gradient(135deg,#fff,#f9f9ff);display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.08);}
+    h1{margin:0;font-size:28px;color:#222;}
+    p.lead{margin:4px 0 0;color:#666;}
+    main{display:flex;flex-wrap:wrap;gap:20px;}
+    .card{flex:1;min-width:280px;background:var(--card);border-radius:16px;padding:20px;box-shadow:0 6px 24px rgba(0,0,0,.05);}
+
+    /* Overlay intro */
+    .overlay{position:fixed;inset:0;background:linear-gradient(180deg,#fff,#ffeaf6);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;}
+    .cake{position:relative;width:200px;height:160px;cursor:pointer;}
+    .layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:12px;}
+    .layer.one{bottom:10px;width:200px;height:70px;background:#ffd0e8;}
+    .layer.two{bottom:70px;width:180px;height:60px;background:#fff0f8;}
+    .icing{position:absolute;left:50%;transform:translateX(-50%);bottom:125px;width:160px;height:36px;background:#ffd0e8;border-radius:18px;}
+    .candle{position:absolute;left:50%;transform:translateX(-50%);bottom:162px;width:10px;height:36px;background:#ffcc66;border-radius:4px;}
+    .flame{position:absolute;left:50%;transform:translateX(-50%);bottom:198px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff1a8,#ffb85a);box-shadow:0 6px 12px rgba(255,180,70,.3);}
+    .overlay h2{margin-top:240px;font-size:24px;color:#333;}
+    .fadeOut{animation:fadeOut .8s forwards;}
+    @keyframes fadeOut{to{opacity:0;visibility:hidden;}}
   </style>
 </head>
 <body>
-  <div class="stage" role="main">
+  <div id="overlay" class="overlay">
+    <div id="cake" class="cake">
+      <div class="layer one"></div>
+      <div class="layer two"></div>
+      <div class="icing"></div>
+      <div class="candle"></div>
+      <div id="flame" class="flame"></div>
+    </div>
+    <h2>Nhấp vào bánh để thổi nến 🎂</h2>
+  </div>
+
+  <div id="stage" class="stage">
     <header>
-      <div class="avatar" aria-hidden>
-        <!-- Original, non-branded "cute puppy" - simple SVG -->
-        <svg width="86" height="86" viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" fill-rule="evenodd">
-            <ellipse cx="43" cy="54" rx="28" ry="18" fill="#fff9fb" stroke="#f4d9f0"/>
-            <circle cx="29" cy="36" r="10" fill="#fff" stroke="#f4d9f0"/>
-            <circle cx="57" cy="36" r="10" fill="#fff" stroke="#f4d9f0"/>
-            <circle cx="34" cy="36" r="3" fill="#2b2b2b"/>
-            <circle cx="52" cy="36" r="3" fill="#2b2b2b"/>
-            <path d="M38 46c3 3 10 3 12 0" stroke="#2b2b2b" stroke-linecap="round" stroke-width="2"/>
-            <g transform="translate(22 6)">
-              <path d="M6 8c-6-8-8-6-8-2s4 12 12 14" fill="#fff3fb"/>
-              <path d="M58 8c6-8 8-6 8-2s-4 12-12 14" fill="#fff3fb"/>
-            </g>
-          </g>
+      <div class="avatar">
+        <svg width="80" height="80" viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="43" cy="54" rx="28" ry="18" fill="#fff9fb" stroke="#f4d9f0"/>
+          <circle cx="29" cy="36" r="10" fill="#fff" stroke="#f4d9f0"/>
+          <circle cx="57" cy="36" r="10" fill="#fff" stroke="#f4d9f0"/>
+          <circle cx="34" cy="36" r="3" fill="#2b2b2b"/>
+          <circle cx="52" cy="36" r="3" fill="#2b2b2b"/>
+          <path d="M38 46c3 3 10 3 12 0" stroke="#2b2b2b" stroke-linecap="round" stroke-width="2"/>
         </svg>
       </div>
-      <div class="title">
-        <h1>생일 축하해, 예나야!</h1>
-        <p class="lead">Yena에게 보내는 깜짝 페이지 — 초를 불어서 깜짝 효과를 켜보세요 🎉</p>
+      <div>
+        <h1>Chúc mừng sinh nhật bé Yena 🎉</h1>
+        <p class="lead">Chúc bé luôn vui vẻ, đáng yêu và tràn đầy tiếng cười 💖</p>
       </div>
     </header>
 
     <main>
-      <div class="left">
-        <div class="card">
-          <div class="cake-wrap">
-            <div id="cake" class="cake" tabindex="0" role="button" aria-pressed="false" title="클릭하거나 불어보세요!">
-              <div class="layer one"></div>
-              <div class="layer two"></div>
-              <div class="icing"></div>
-              <div class="candle"></div>
-              <div id="flame" class="flame"></div>
-            </div>
-            <div class="hint">클릭하면 초를 불어 끌 수 있어요. 마이크를 허용하면 '불기'로도 꺼집니다.</div>
-            <div class="btns">
-              <button id="blowBtn">불기 시도 (마이크)</button>
-              <button id="replay">다시하기</button>
-            </div>
-          </div>
-        </div>
+      <div class="card">
+        <h3>Lời chúc</h3>
+        <p>Bé Yena ơi, hôm nay là ngày đặc biệt của con! Mong con luôn mạnh khỏe, học giỏi và mỉm cười thật nhiều nhé 🎂</p>
       </div>
-
-      <div style="width:340px">
-        <div class="card">
-          <h3 style="margin:0 0 8px">작은 선물</h3>
-          <p style="margin:0 0 8px;color:#5b6778">예나가 좋아하는 'Cinnamoroll' 느낌의 귀여운 캐릭터와 풍선, 케이크 애니메이션이 준비되어 있어요. 아래 메시지를 그대로 두거나 원하는 문구로 바꿔보세요.</p>
-          <div style="padding:12px;border-radius:12px;background:#fff;box-shadow:inset 0 1px 0 rgba(0,0,0,.02)">
-            <strong style="display:block;margin-bottom:6px">메시지 (한국어):</strong>
-            <div>예나야, 생일 진심으로 축하해! 항상 행복하고 웃는 일만 가득하길 바랄게요 💖</div>
-          </div>
-        </div>
+      <div class="card">
+        <h3>Quà bất ngờ</h3>
+        <p>Một trang web nhỏ dễ thương dành riêng cho con – với bánh kem, ánh nến và thật nhiều tình yêu 💕</p>
       </div>
     </main>
-
-    <div id="overlay" class="overlay" role="dialog" aria-hidden="true">
-      <div class="message">생일 축하해요, 예나!</div>
-      <div class="sub">많은 사랑과 케이크를 보낼게요 🎂</div>
-    </div>
-
-    <div class="confetti" id="confetti" aria-hidden="true"></div>
-
-    <footer>
-      <div>Made with ❤ for Yena</div>
-      <div style="font-size:12px;color:#b0b7c0">Tip: 마이크를 허용하고 부드럽게 불어보세요</div>
-    </footer>
   </div>
 
   <script>
-    // Small helper to create confetti pieces
-    const confettiRoot = document.getElementById('confetti');
-    function createConfetti(){
-      confettiRoot.innerHTML='';
-      const colors = ['#ffd1e8','#ffd6a5','#cfe9ff','#e8d7ff','#fff4d6'];
-      for(let i=0;i<60;i++){
-        const node = document.createElement('i');
-        node.style.left = Math.random()*100+'%';
-        node.style.top = Math.random()*20+'%';
-        node.style.background = colors[Math.floor(Math.random()*colors.length)];
-        node.style.transform = `translateY(${Math.random()*20-10}px) rotate(${Math.random()*360}deg)`;
-        node.style.opacity=1;
-        confettiRoot.appendChild(node);
-        // animate
-        const dur = 1200 + Math.random()*1000;
-        node.animate([
-          {transform: node.style.transform, opacity:1, offset:0},
-          {transform: `translateY(${300+Math.random()*200}px) rotate(${Math.random()*720}deg)`, opacity:0, offset:1}
-        ],{duration:dur,easing:'cubic-bezier(.2,.8,.2,1)'});
-      }
-      setTimeout(()=>confettiRoot.innerHTML='',2200);
-    }
+    const overlay=document.getElementById('overlay');
+    const cake=document.getElementById('cake');
+    const flame=document.getElementById('flame');
+    const stage=document.getElementById('stage');
 
-    const flame = document.getElementById('flame');
-    const cake = document.getElementById('cake');
-    const overlay = document.getElementById('overlay');
-    const replay = document.getElementById('replay');
-    const blowBtn = document.getElementById('blowBtn');
-
-    let lit = true;
-    function extinguish(){
+    let lit=true;
+    function blowCandle(){
       if(!lit) return;
       lit=false;
-      flame.style.transition='transform .28s, opacity .28s';
-      flame.style.transform='translateX(-50%) scale(.2)';
-      flame.style.opacity=0;
-      // show overlay + confetti
-      overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
-      createConfetti();
-    }
-    function relight(){
-      lit=true;
-      flame.style.transform='translateX(-50%) scale(1)';
-      flame.style.opacity=1;
-      overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true');
-      confettiRoot.innerHTML='';
+      flame.style.transition='transform .4s, opacity .4s';
+      flame.style.transform='translateX(-50%) scale(.3)';
+      flame.style.opacity='0';
+      overlay.classList.add('fadeOut');
+      setTimeout(()=>{
+        overlay.style.display='none';
+        stage.style.display='flex';
+      },800);
     }
 
-    cake.addEventListener('click',()=>{
-      if(lit) extinguish();
-    });
-    replay.addEventListener('click',()=>{relight();});
-
-    // Allow keyboard 'Space' to blow
-    cake.addEventListener('keydown',(e)=>{if(e.code==='Space'){e.preventDefault(); if(lit) extinguish();}});
-
-    // Optional: use microphone to detect blowing
-    let audioCtx, analyser, micStream, dataArray, rafId;
-    async function startMic(){
-      if(audioCtx) return;
-      try{
-        const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-        audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-        micStream = audioCtx.createMediaStreamSource(stream);
-        analyser = audioCtx.createAnalyser(); analyser.fftSize=2048;
-        dataArray = new Uint8Array(analyser.fftSize);
-        micStream.connect(analyser);
-        detectBlow();
-      }catch(err){alert('마이크 접근이 필요합니다. 권한을 허용해주세요.');}
-    }
-    function detectBlow(){
-      analyser.getByteTimeDomainData(dataArray);
-      // compute amplitude
-      let sum=0; for(let i=0;i<dataArray.length;i++){const v=(dataArray[i]-128)/128; sum+=v*v}
-      const rms = Math.sqrt(sum/dataArray.length);
-      // threshold tuned for "blow" - you may need to adjust
-      if(rms>0.08 && lit){ // strong input -> extinguish
-        extinguish();
-      }
-      rafId = requestAnimationFrame(detectBlow);
-    }
-    blowBtn.addEventListener('click',async ()=>{
-      if(!audioCtx) {
-        await startMic();
-        blowBtn.textContent='마이크 활성화됨 — 불어보세요!';
-      } else {
-        // toggle off
-        if(rafId) cancelAnimationFrame(rafId);
-        if(audioCtx) {audioCtx.close(); audioCtx=null; blowBtn.textContent='불기 시도 (마이크)';}
-      }
-    });
-
-    // small accessibility: click overlay to dismiss
-    overlay.addEventListener('click',()=>{overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true');});
-
-    // Allow small animation on load
-    window.addEventListener('load',()=>{flame.animate([{transform:'translateX(-50%) scale(.6)'},{transform:'translateX(-50%) scale(1)'}],{duration:600,iterations:1,easing:'ease-out'})});
-
+    cake.addEventListener('click',blowCandle);
   </script>
 </body>
 </html>
