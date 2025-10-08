@@ -5,198 +5,230 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Chúc mừng sinh nhật bé Yena 🎂</title>
   <style>
-    :root{--bg:#0b0b0f;--overlay-bg:rgba(2,6,23,.88);--card:#fff;--accent:#ffd6ea}
-    html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Arial,sans-serif;background:var(--bg);color:#222}
+    :root {
+      --dark-bg: #0b0b0f;
+      --pink-bg: linear-gradient(135deg, #ffb7ef 0%, #e1b4ff 100%);
+    }
 
-    /* STAGE (hidden until overlay dismissed) */
-    #stage{display:none;min-height:100vh;padding:28px;box-sizing:border-box;position:relative;overflow:hidden}
-    header{display:flex;gap:16px;align-items:center}
-    .avatar{width:96px;height:96px;border-radius:18px;background:linear-gradient(135deg,#fff,#f9f9ff);display:grid;place-items:center;box-shadow:0 8px 30px rgba(0,0,0,.25)}
-    h1{margin:0;font-size:28px;color:#fff}
-    p.lead{margin:6px 0 0;color:#e6e9ef}
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Poppins", system-ui, sans-serif;
+      background: var(--dark-bg);
+      color: #fff;
+      overflow: hidden;
+    }
 
-    /* Floating icons in background */
-    .float-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
-    .float-wrap i{position:absolute;font-size:26px;opacity:.9;transform:translateY(0);will-change:transform,opacity}
-    @keyframes floatUp{from{transform:translateY(40vh) scale(.9);opacity:0}50%{opacity:1}to{transform:translateY(-20vh) scale(1.1);opacity:0}}
+    /* Overlay (cake scene) */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 1s ease;
+    }
 
-    /* cards */
-    main{display:flex;flex-wrap:wrap;gap:18px;position:relative;z-index:2}
-    .card{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);padding:18px;border-radius:14px;color:#fff;min-width:240px}
+    .cake-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      animation: pulse 2.5s infinite;
+    }
 
-    /* OVERLAY */
-    #overlay{position:fixed;inset:0;background:var(--overlay-bg);display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:200}
-    .cake-wrap{position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column}
-    .cake-img{width:320px;max-width:78vw;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
 
-    /* Candle glow effect */
-    .glow{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);width:220px;height:220px;border-radius:50%;pointer-events:none;filter:blur(30px);mix-blend-mode:screen;opacity:1}
-    .flame-spot{position:absolute;left:50%;top:28%;transform:translate(-50%,-50%);width:28px;height:42px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff5b8,#ffd06a,#ff7b6b);box-shadow:0 0 40px #ffb86b,0 0 90px rgba(255,140,180,.25)}
+    .cake-img {
+      width: 320px;
+      max-width: 80vw;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
 
-    .instruction{color:#fff;margin-top:18px;font-size:18px}
+    .flame {
+      position: absolute;
+      top: 27%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 42px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff8c5, #ffc46a, #ff7b6b);
+      box-shadow: 0 0 40px #ffb86b, 0 0 90px rgba(255,140,180,0.3);
+      animation: flicker 1.2s infinite ease-in-out;
+    }
 
-    /* subtle pulse on cake to invite click */
-    .cake-wrap{animation:invite 2.6s infinite}
-    @keyframes invite{0%{transform:scale(1)}50%{transform:scale(1.03)}100%{transform:scale(1)}}
+    @keyframes flicker {
+      0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+      50% { transform: translate(-50%,-55%) scale(1.05); opacity: 0.9; }
+    }
 
-    /* small responsive tweaks */
-    @media(max-width:520px){.cake-img{width:260px}}
+    .instruction {
+      color: #fff;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    /* Main stage (after blow) */
+    #stage {
+      display: none;
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background: var(--pink-bg);
+      transition: background 2s ease;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    header h1 {
+      font-size: 36px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(255, 255, 255, 0.6);
+    }
+
+    header p {
+      color: #fff;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    /* Floating icons */
+    .float-wrap {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .float-wrap i {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.8;
+      animation: floatUp linear forwards;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh) scale(0.8); opacity: 1; }
+      to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* Glitter */
+    .glitter {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: sparkle 3s infinite ease-in-out;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
   </style>
 </head>
 <body>
-
-  <!-- Overlay: dark, centered cake image (user file: cakee.png) -->
-  <div id="overlay" role="dialog" aria-label="Mở đầu sinh nhật">
-    <div class="cake-wrap" id="cakeWrap" tabindex="0">
-      <!-- user should provide cakee.png in same folder -->
-      <img src="cakee.png" alt="Bánh sinh nhật" class="cake-img" id="cakeImg" />
-      <div class="glow" id="glow" style="background: radial-gradient(circle at 50% 40%, rgba(255,220,240,0.45) 0%, rgba(255,200,240,0.18) 15%, rgba(0,0,0,0) 40%);"></div>
-      <div class="flame-spot" id="flameSpot"></div>
+  <!-- Overlay -->
+  <div id="overlay">
+    <div class="cake-wrap" id="cakeWrap">
+      <img src="cakee.png" alt="Bánh sinh nhật" class="cake-img">
+      <div class="flame" id="flame"></div>
     </div>
     <div class="instruction">Nhấp vào bánh để thổi nến ✨</div>
   </div>
 
-  <!-- Main stage (hidden until overlay closed) -->
+  <!-- Main stage -->
   <div id="stage">
-    <div class="float-wrap" id="floatWrap" aria-hidden="true"></div>
-
+    <div class="float-wrap" id="floatWrap"></div>
     <header>
-      <div class="avatar" aria-hidden>
-        <svg width="72" height="72" viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="43" cy="54" rx="28" ry="18" fill="#fff9fb" stroke="#f4d9f0"/>
-          <circle cx="29" cy="36" r="10" fill="#fff" stroke="#f4d9f0"/>
-          <circle cx="57" cy="36" r="10" fill="#fff" stroke="#f4d9f0"/>
-          <circle cx="34" cy="36" r="3" fill="#2b2b2b"/>
-          <circle cx="52" cy="36" r="3" fill="#2b2b2b"/>
-          <path d="M38 46c3 3 10 3 12 0" stroke="#2b2b2b" stroke-linecap="round" stroke-width="2"/>
-        </svg>
-      </div>
-      <div>
-        <h1>Chúc mừng sinh nhật Yena!</h1>
-        <p class="lead">Một ngày đặc biệt — chúc bé luôn hạnh phúc và khỏe mạnh 💖</p>
-      </div>
+      <h1>🎂 Chúc mừng sinh nhật bé Yena! 🎀</h1>
+      <p>Chúc bé luôn vui vẻ, khỏe mạnh và đáng yêu như Cinnamoroll 💖</p>
     </header>
-
-    <main>
-      <div class="card">
-        <h3>Lời chúc</h3>
-        <p>Yena ơi, hôm nay là ngày của con—chúc con thật nhiều niềm vui và bánh kem!</p>
-      </div>
-      <div class="card">
-        <h3>Quà</h3>
-        <p>Trang web nhỏ xinh này dành riêng cho con. Hãy khám phá nhé!</p>
-      </div>
-    </main>
   </div>
 
-  <!-- Audio: puff sound (on blow) and birthday song (child voice) -->
-  <audio id="puffSound" src="puff.mp3" preload="auto"></audio>
-  <audio id="song" src="happy_korean_child.mp3" preload="auto"></audio>
+  <!-- Public sounds -->
+  <audio id="puffSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_71e57dcfb5.mp3?filename=candle-blow-out-1.mp3" preload="auto"></audio>
+  <audio id="song" src="https://cdn.pixabay.com/download/audio/2023/07/04/audio_f9f8b1b785.mp3?filename=happy-birthday-korean-children-15614.mp3" preload="auto"></audio>
 
   <script>
-    // Elements
     const overlay = document.getElementById('overlay');
     const cakeWrap = document.getElementById('cakeWrap');
-    const flameSpot = document.getElementById('flameSpot');
-    const glow = document.getElementById('glow');
+    const flame = document.getElementById('flame');
     const stage = document.getElementById('stage');
     const puff = document.getElementById('puffSound');
     const song = document.getElementById('song');
     const floatWrap = document.getElementById('floatWrap');
-
     let lit = true;
 
-    // Play puff + extinguish effect
-    function extinguish(){
-      if(!lit) return;
+    cakeWrap.addEventListener('click', blowOut);
+
+    function blowOut() {
+      if (!lit) return;
       lit = false;
-      // play puff sound (if provided)
-      try{puff.currentTime = 0; puff.play().catch(()=>{});}catch(e){}
-
-      // small visual: shrink flame spot + fade glow
-      flameSpot.style.transition = 'transform .45s ease, opacity .45s ease';
-      flameSpot.style.transform = 'translate(-50%,-50%) scale(.25)';
-      flameSpot.style.opacity = '0';
-      glow.style.transition = 'opacity .6s ease, transform .6s ease';
-      glow.style.opacity = '0';
-
-      // hide overlay after animation
-      setTimeout(()=>{
-        overlay.style.display = 'none';
-        stage.style.display = 'block';
-        startBackground();
-        // start song (user interaction happened so autoplay allowed)
-        try{song.currentTime = 0; song.play().catch(()=>{});}catch(e){}
-      },650);
+      puff.play();
+      flame.style.transition = 'opacity 0.6s ease';
+      flame.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          stage.style.display = 'block';
+          song.play();
+          startFloating();
+          startGlitter();
+        }, 900);
+      }, 800);
     }
 
-    // Click / keyboard
-    cakeWrap.addEventListener('click', extinguish);
-    cakeWrap.addEventListener('keydown', (e)=>{ if(e.code === 'Space' || e.key === 'Enter') extinguish(); });
-
-    // Create floating icons
-    const icons = ['🎈','💖','✨','⭐','🎀'];
-    function spawnIcon(i){
+    // Floating icons
+    const icons = ['🎈', '💖', '⭐', '🎀', '✨'];
+    function spawnIcon() {
       const el = document.createElement('i');
-      el.textContent = icons[Math.floor(Math.random()*icons.length)];
-      const size = 18 + Math.random()*26; el.style.fontSize = size+'px';
-      el.style.left = (10 + Math.random()*80) + '%';
-      el.style.bottom = '-10%';
-      const delay = Math.random()*4;
-      const duration = 8 + Math.random()*8;
-      el.style.animation = `floatUp ${duration}s linear ${delay}s forwards`;
+      el.textContent = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = Math.random() * 90 + '%';
+      el.style.animationDuration = 6 + Math.random() * 8 + 's';
       floatWrap.appendChild(el);
-      setTimeout(()=>{ el.remove(); }, (delay+duration)*1000 + 200);
-    }
-    let floatInterval;
-    function startBackground(){
-      // spawn a few immediately
-      for(let i=0;i<8;i++) spawnIcon();
-      floatInterval = setInterval(()=>spawnIcon(), 900);
+      el.addEventListener('animationend', () => el.remove());
     }
 
-    // Accessibility: if audio files missing, ignore errors
-    song.addEventListener('error', ()=>{console.warn('Không tìm thấy file happy_korean_child.mp3 — vui lòng tải file lên cùng thư mục nếu muốn bài hát.');});
-    puff.addEventListener('error', ()=>{console.warn('Không tìm thấy file puff.mp3 — vui lòng tải file lên cùng thư mục nếu muốn tiếng phù.');});
-
-    // Preload: gently animate flame to attract attention
-    flameSpot.animate([
-      { transform: 'translate(-50%,-50%) scale(1)', opacity:1 },
-      { transform: 'translate(-50%,-55%) scale(1.05)', opacity:1 },
-      { transform: 'translate(-50%,-50%) scale(1)', opacity:1 }
-    ],{duration:1400,iterations:Infinity,easing:'ease-in-out'});
-
-    // Optional: allow blow detection via mic (try to detect strong RMS)
-    // This is best-effort; if user doesn't allow, it fails silently.
-    async function tryMicBlow(){
-      if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
-      try{
-        const stream = await navigator.mediaDevices.getUserMedia({audio:true});
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const ctx = new AudioCtx();
-        const src = ctx.createMediaStreamSource(stream);
-        const analyser = ctx.createAnalyser(); analyser.fftSize = 2048;
-        const data = new Uint8Array(analyser.fftSize);
-        src.connect(analyser);
-        function check(){
-          analyser.getByteTimeDomainData(data);
-          let sum=0; for(let i=0;i<data.length;i++){const v=(data[i]-128)/128; sum+=v*v}
-          const rms = Math.sqrt(sum/data.length);
-          if(rms > 0.09 && lit){ extinguish(); stream.getTracks().forEach(t=>t.stop()); ctx.close(); }
-          if(lit) requestAnimationFrame(check);
-        }
-        check();
-      }catch(e){/* ignore mic errors */}
+    function startFloating() {
+      for (let i = 0; i < 10; i++) spawnIcon();
+      setInterval(spawnIcon, 800);
     }
 
-    // Try mic after first user interaction (click) - not before to avoid auto prompt
-    cakeWrap.addEventListener('click', ()=>{ tryMicBlow(); });
-
-    // Helpful notice when DOM ready
-    document.addEventListener('DOMContentLoaded', ()=>{
-      // nothing - overlay visible by default
-    });
-
+    // Glitter sparkles
+    function startGlitter() {
+      const count = 60;
+      for (let i = 0; i < count; i++) {
+        const g = document.createElement('div');
+        g.className = 'glitter';
+        g.style.left = Math.random() * 100 + '%';
+        g.style.top = Math.random() * 100 + '%';
+        g.style.animationDelay = Math.random() * 3 + 's';
+        stage.appendChild(g);
+      }
+    }
   </script>
 </body>
 </html>
