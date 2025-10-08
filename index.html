@@ -168,6 +168,8 @@ header p {
   margin: 60px auto;
   cursor: pointer;
   animation: float 4s ease-in-out infinite;
+  position: relative;
+  z-index: 5;
 }
 @keyframes float {
   0%,100% { transform: translateY(0); }
@@ -177,10 +179,25 @@ header p {
   width: 100%;
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(255,255,255,0.5);
-  transition: transform 0.6s ease;
+  transition: transform 0.6s ease, opacity 0.6s ease;
 }
 .gift-box.open img {
-  transform: scale(0);
+  transform: rotateX(90deg) scale(0.5);
+  opacity: 0;
+}
+.gift-box.open::after {
+  content: "✨💖🎉";
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  animation: sparklePop 1.2s ease forwards;
+}
+@keyframes sparklePop {
+  0% { opacity: 0; transform: translate(-50%, 10px) scale(0.5); }
+  50% { opacity: 1; transform: translate(-50%, -10px) scale(1.2); }
+  100% { opacity: 0; transform: translate(-50%, -40px) scale(0.8); }
 }
 
 /* Photo frame */
@@ -194,6 +211,8 @@ header p {
   overflow: hidden;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
   display: none;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 .photo-frame img {
   position: absolute;
@@ -340,8 +359,11 @@ giftBox.addEventListener('click',()=>{
   setTimeout(()=>{
     giftBox.style.display='none';
     photoFrame.style.display='block';
-    startPhotoCycle();
-  },600);
+    setTimeout(()=>{
+      photoFrame.style.opacity='1';
+      startPhotoCycle();
+    },100);
+  },900);
 });
 
 // Smooth random photo cycle
