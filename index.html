@@ -1,158 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday Yena 🎂</title>
 <style>
-  body, html {
-    margin: 0; padding: 0;
-    overflow-x: hidden;
-    font-family: "Comic Sans MS", cursive;
-    background: linear-gradient(180deg, #ffe6f2, #ffd6ec, #ffe6f2);
-    color: #333;
-    text-align: center;
-  }
-
+  html,body{margin:0;padding:0;overflow-x:hidden;font-family:"Comic Sans MS",cursive;background:linear-gradient(180deg,#ffe6f2,#ffd6ec,#ffe6f2);color:#333;text-align:center;}
   /* Overlay Cake */
-  #overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.9);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 9999; flex-direction: column;
-  }
-  #cake {
-    position: relative;
-    width: 220px; height: auto;
-    cursor: pointer;
-  }
-  #flame {
-    position: absolute;
-    top: 60px; left: 50%;
-    transform: translateX(-50%);
-    width: 20px; height: 40px;
-    background: radial-gradient(ellipse at center, #ff0 0%, #f80 60%, transparent 100%);
-    border-radius: 50%;
-    animation: flicker 0.15s infinite alternate;
-  }
-  @keyframes flicker {
-    from { transform: translateX(-50%) scale(1); opacity: 1; }
-    to { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
-  }
-  .smoke {
-    position: absolute;
-    width: 10px; height: 10px;
-    background: rgba(200,200,200,0.5);
-    border-radius: 50%;
-    animation: smokeUp 2s ease-out forwards;
-  }
-  @keyframes smokeUp {
-    0% { opacity: 0.8; transform: translateY(0) scale(1);}
-    100% { opacity: 0; transform: translateY(-100px) scale(3);}
-  }
+  #overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;}
+  #cake{position:relative;width:220px;cursor:pointer;}
+  #flame{position:absolute;top:60px;left:50%;transform:translateX(-50%);width:20px;height:40px;background:radial-gradient(ellipse at center,#ff0 0%,#f80 60%,transparent 100%);border-radius:50%;animation:flicker 0.15s infinite alternate;}
+  @keyframes flicker{from{transform:translateX(-50%) scale(1);opacity:1}to{transform:translateX(-50%) scale(1.2);opacity:0.8}}
+  .smoke{position:absolute;width:10px;height:10px;background:rgba(200,200,200,0.5);border-radius:50%;animation:smokeUp 2s ease-out forwards;}
+  @keyframes smokeUp{0%{opacity:0.8;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-100px) scale(3);}}
 
   /* Main content */
-  #main { display: none; position: relative; overflow: hidden; }
+  #main{display:none;position:relative;overflow:hidden;}
 
   /* Floating icons */
-  .icon {
-    position: absolute;
-    width: 30px; height: 30px;
-    animation: float 10s linear infinite;
-    opacity: 0.7;
-  }
-  @keyframes float {
-    0% { transform: translateY(100vh) rotate(0deg); }
-    100% { transform: translateY(-10vh) rotate(360deg); }
-  }
+  .icon{position:absolute;width:30px;height:30px;animation:float 10s linear infinite;opacity:0.7;}
+  @keyframes float{0%{transform:translateY(100vh) rotate(0deg);}100%{transform:translateY(-10vh) rotate(360deg);}}
 
   /* Gift Box */
-  .gift-container { margin-top: 100px; position: relative; }
-  .gift-box {
-    position: relative; margin: 0 auto; width: 280px; height: 280px;
-    background: #ffb6c1; border-radius: 10px; cursor: pointer;
-    box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  }
-  .ribbon {
-    position: absolute; background: #ff69b4;
-  }
-  .ribbon.vertical { width: 40px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
-  .ribbon.horizontal { height: 40px; width: 100%; top: 50%; left: 0; transform: translateY(-50%); }
-  .bow {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-    width: 60px; height: 60px; background: #ff1493; border-radius: 50%;
-  }
-  #clickHint {
-    font-size: 18px;
-    color: #ff69b4;
-    margin-top: 15px;
-    animation: blink 1s infinite;
-  }
-  @keyframes blink { 50% { opacity: 0.5; } }
+  .gift-container{margin-top:100px;position:relative;}
+  .gift-box{position:relative;margin:0 auto;width:280px;height:280px;background:#ffb6c1;border-radius:10px;cursor:pointer;box-shadow:0 0 15px rgba(0,0,0,0.3);}
+  .ribbon{position:absolute;background:#ff69b4;}
+  .ribbon.vertical{width:40px;height:100%;left:50%;top:0;transform:translateX(-50%);}
+  .ribbon.horizontal{height:40px;width:100%;top:50%;left:0;transform:translateY(-50%);}
+  .bow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:60px;height:60px;background:#ff1493;border-radius:50%;}
+  #clickHint{font-size:18px;color:#ff69b4;margin-top:15px;animation:blink 1s infinite;} @keyframes blink{50%{opacity:0.5;}}
 
   /* Typing text */
-  #message {
-    margin-top: 50px;
-    font-size: 22px;
-    white-space: pre-wrap;
-    display: inline-block;
-    border-right: 3px solid #ff69b4;
-    overflow: hidden;
-  }
+  #message{margin-top:50px;font-size:22px;white-space:pre-wrap;display:inline-block;border-right:3px solid #ff69b4;overflow:hidden;}
 
   /* Slideshow */
-  #slideshow {
-    margin-top: 50px;
-    width: 300px; height: 300px;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-inline: auto;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
-  }
-  #slideshow img {
-    width: 100%; height: 100%; object-fit: cover;
-    position: absolute; opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-  }
-  #slideshow img.active { opacity: 1; }
+  #slideshow{margin-top:50px;width:300px;height:300px;border-radius:20px;overflow:hidden;margin-inline:auto;box-shadow:0 0 20px rgba(0,0,0,0.2);position:relative;}
+  #slideshow img{width:100%;height:100%;object-fit:cover;position:absolute;opacity:0;transition:opacity 0.8s ease-in-out;}
+  #slideshow img.active{opacity:1;}
 
   /* Scroll arrow */
-  #scrollArrow {
-    font-size: 28px; color: #ff69b4; margin-top: 40px; cursor: pointer;
-    animation: bounce 1.2s infinite;
-  }
-  @keyframes bounce {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(10px); }
-  }
+  #scrollArrow{font-size:28px;color:#ff69b4;margin-top:40px;cursor:pointer;animation:bounce 1.2s infinite;display:none;}
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(10px);}}
 
   /* Video section */
-  #videoSection {
-    margin-top: 200px;
-    position: relative;
-    display: flex; justify-content: center;
-    align-items: center;
-  }
-  .film-border {
-    position: absolute; width: 20px; height: 100%;
-    background: repeating-linear-gradient(
-      #333 0, #333 10px, transparent 10px, transparent 20px
-    );
-  }
-  .film-border.left { left: calc(50% - 170px); }
-  .film-border.right { right: calc(50% - 170px); }
-  #yenaVideo {
-    width: 300px; height: auto;
-    border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  }
+  #videoSection{margin-top:200px;position:relative;display:flex;justify-content:center;align-items:center;}
+  .film-border{position:absolute;width:20px;height:100%;background:repeating-linear-gradient(#333 0 10px,transparent 10px 20px);}
+  .film-border.left{left:calc(50% - 170px);}
+  .film-border.right{right:calc(50% - 170px);}
+  #yenaVideo{width:300px;height:auto;border-radius:10px;box-shadow:0 0 15px rgba(0,0,0,0.3);}
 </style>
 </head>
 <body>
 
 <!-- Overlay -->
 <div id="overlay">
-  <img id="cake" src="cakee.png" alt="Birthday Cake" />
+  <img id="cake" src="cakee.png" alt="Birthday Cake">
   <div id="flame"></div>
 </div>
 
@@ -172,12 +74,12 @@
   <div id="message"></div>
 
   <div id="slideshow">
-    <img src="1a.jpg" class="active" />
-    <img src="1b.jpg" />
-    <img src="1c.jpg" />
-    <img src="1d.jpg" />
-    <img src="1e.jpg" />
-    <img src="1f.jpg" />
+    <img src="1b.jpg" class="active">
+    <img src="1a.jpg">
+    <img src="1c.jpg">
+    <img src="1d.jpg">
+    <img src="1e.jpg">
+    <img src="1f.jpg">
   </div>
 
   <div id="scrollArrow">⬇️</div>
@@ -190,72 +92,77 @@
 </div>
 
 <script>
-const overlay = document.getElementById("overlay");
-const flame = document.getElementById("flame");
+const overlay=document.getElementById("overlay"),flame=document.getElementById("flame");
+const main=document.getElementById("main");
+const giftBox=document.getElementById("giftBox"),clickHint=document.getElementById("clickHint");
+const message=document.getElementById("message");
+const slides=document.querySelectorAll("#slideshow img");
+const scrollArrow=document.getElementById("scrollArrow");
+const video=document.getElementById("yenaVideo");
 
-document.getElementById("cake").addEventListener("click", () => {
-  flame.remove(); // remove instantly
-  // add smoke
-  for (let i = 0; i < 10; i++) {
-    const s = document.createElement("div");
-    s.className = "smoke";
-    s.style.left = "50%";
-    s.style.top = "60px";
-    s.style.animationDelay = i * 0.1 + "s";
+// Overlay click -> lửa mất liền, khói bay
+document.getElementById("cake").addEventListener("click",()=>{
+  flame.remove();
+  for(let i=0;i<10;i++){
+    const s=document.createElement("div");
+    s.className="smoke";
+    s.style.left="50%";
+    s.style.top="60px";
+    s.style.animationDelay=(i*0.1)+"s";
     overlay.appendChild(s);
-    setTimeout(() => s.remove(), 2000);
+    setTimeout(()=>s.remove(),2000);
   }
-  setTimeout(() => {
-    overlay.style.transition = "opacity 1s";
-    overlay.style.opacity = 0;
-    setTimeout(() => overlay.style.display = "none", 1000);
-    document.getElementById("main").style.display = "block";
-  }, 500);
+  setTimeout(()=>{
+    overlay.style.transition="opacity 0.5s";overlay.style.opacity=0;
+    setTimeout(()=>{overlay.style.display="none";main.style.display="block";},500);
+  },100);
 });
 
-// Typing effect
-const messageText = "예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";
-const messageElem = document.getElementById("message");
-let typingIdx = 0;
-function typeMessage() {
-  if (typingIdx < messageText.length) {
-    messageElem.textContent += messageText[typingIdx++];
-    setTimeout(typeMessage, 35);
-  } else {
-    document.getElementById("scrollArrow").style.display = "block";
+// Gift box
+giftBox.addEventListener("click",()=>{
+  clickHint.style.display="none";
+  giftBox.style.transition="transform 1s ease";
+  giftBox.style.transform="rotateX(180deg)";
+  setTimeout(typeMessage,1000);
+});
+
+// Typing
+const msgText="예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";
+let idx=0;
+function typeMessage(){
+  message.textContent="";
+  let cursor=document.createElement("span");
+  cursor.style.borderRight="3px solid #ff69b4";
+  cursor.style.marginLeft="2px";
+  message.appendChild(cursor);
+  const textNode=document.createElement("span");
+  message.insertBefore(textNode,cursor);
+  function step(){
+    if(idx<msgText.length){
+      textNode.textContent+=msgText[idx++];
+      setTimeout(step,35);
+    }else{cursor.remove();scrollArrow.style.display="block";}
   }
+  step();
 }
 
-// Gift box click
-document.getElementById("giftBox").addEventListener("click", () => {
-  document.getElementById("clickHint").style.display = "none";
-  document.getElementById("giftBox").style.transition = "transform 1s ease";
-  document.getElementById("giftBox").style.transform = "rotateX(180deg)";
-  setTimeout(typeMessage, 1000);
-});
-
-// Slideshow logic
-const slides = document.querySelectorAll("#slideshow img");
-let current = 0;
-let order = ["1a","1b","1c","1d","1e","1f"];
-let nextOrder = [...order];
-function nextSlide() {
+// Slideshow
+let order=["1b","1a","1c","1d","1e","1f"];
+let round=[...order];
+let current=0;
+function nextSlide(){
   slides[current].classList.remove("active");
-  current = (current + 1) % slides.length;
+  current=(current+1)%slides.length;
   slides[current].classList.add("active");
-  if (current === slides.length - 1) {
-    nextOrder = order.sort(() => Math.random() - 0.5);
-  }
-  setTimeout(nextSlide, 2500);
+  if(current==slides.length-1){round=order.sort(()=>Math.random()-0.5);}
+  setTimeout(nextSlide,2500);
 }
-setTimeout(nextSlide, 2500);
+setTimeout(nextSlide,2500);
 
-// Scroll arrow click
-document.getElementById("scrollArrow").addEventListener("click", () => {
-  const videoSection = document.getElementById("videoSection");
-  videoSection.scrollIntoView({ behavior: "smooth" });
-  const video = document.getElementById("yenaVideo");
-  setTimeout(() => video.play().catch(()=>{}), 1200);
+// Scroll arrow click -> scroll + play video
+scrollArrow.addEventListener("click",()=>{
+  document.getElementById("videoSection").scrollIntoView({behavior:"smooth"});
+  setTimeout(()=>video.play().catch(()=>{}),1200);
 });
 </script>
 
