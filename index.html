@@ -1,131 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎂 Happy Birthday Yena 💖</title>
+<style>
+:root{--dark-bg:#0b0b0f;--pink-bg:linear-gradient(135deg,#ffb7ef 0%,#e1b4ff 100%)}
+html,body{height:100%;margin:0;font-family:"Poppins",system-ui,sans-serif;background:var(--dark-bg);color:#fff;overflow-x:hidden}
+/* Overlay cake */
+#overlay{position:fixed;inset:0;background:rgba(2,6,23,0.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;transition:opacity .9s ease}
+.cake-wrap{position:relative;cursor:pointer;animation:pulse 2.5s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.cake-img{width:360px;max-width:84vw;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.65)}
+.flame{position:absolute;top:23%;left:50%;transform:translate(-50%,-50%);width:30px;height:44px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff8c5,#ffc46a,#ff7b6b);box-shadow:0 0 44px #ffb86b,0 0 100px rgba(255,140,180,.28);animation:flicker 1.2s infinite ease-in-out,flameUp 2s infinite ease-in-out}
+@keyframes flicker{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-52%) scale(1.05);opacity:.9}}
+@keyframes flameUp{0%,100%{top:23%;height:44px}50%{top:21.5%;height:50px}}
+.smoke{position:absolute;top:22%;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.6),rgba(200,200,200,.3),rgba(0,0,0,0));opacity:.8;filter:blur(2px);animation:smokeRise 2.4s ease-out forwards}
+@keyframes smokeRise{0%{transform:translate(-50%,0) scale(.6);opacity:.8}40%{transform:translate(-50%,-40px) scale(1);opacity:.5}100%{transform:translate(-50%,-90px) scale(1.3);opacity:0}}
+.instruction{color:#fff;margin-top:22px;font-size:18px}
+/* Stage */
+#stage{display:none;position:relative;min-height:220vh;width:100%;background:var(--pink-bg);overflow-x:hidden;transition:background .9s ease}
+header{text-align:center;margin-top:80px;z-index:2}
+header h1{font-size:36px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,.6)}
+/* Floating icons + glitter */
+.float-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+.float-wrap i{position:absolute;font-size:28px;opacity:.85;animation:floatUp linear forwards}
+@keyframes floatUp{from{transform:translateY(100vh)}to{transform:translateY(-10vh);opacity:0}}
+.glitter{position:absolute;width:3px;height:3px;background:white;border-radius:50%;opacity:.8;animation:sparkle 3s infinite ease-in-out}
+@keyframes sparkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:1;transform:scale(1.3)}}
+/* Gift box */
+.gift-box{width:280px;height:280px;margin:90px auto;position:relative;cursor:pointer;animation:float 4s ease-in-out infinite;z-index:5}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.box-body{width:100%;height:70%;background:#ff7bbb;border-radius:0 0 14px 14px;position:absolute;bottom:0;left:0;box-shadow:0 10px 24px rgba(255,0,150,.18)}
+.box-lid{width:100%;height:30%;background:#ff91c2;border-radius:14px 14px 0 0;position:absolute;top:0;left:0;transform-origin:bottom center;transition:transform .7s ease}
+.ribbon-vert{position:absolute;left:50%;top:0;transform:translateX(-50%);width:34px;height:100%;background:#fff;border-radius:12px}
+.ribbon-horiz{position:absolute;top:36%;left:0;width:100%;height:34px;background:#fff;border-radius:12px}
+.bow{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);width:64px;height:40px;z-index:6}
+.bow::before,.bow::after{content:'';position:absolute;width:34px;height:20px;background:#ffdff0;border-radius:8px;box-shadow:0 6px 12px rgba(255,0,150,.08)}
+.bow::before{left:0;transform:rotate(-20deg);transform-origin:left center}
+.bow::after{right:0;transform:rotate(20deg);transform-origin:right center}
+.bow .knot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18px;height:18px;background:#fff;border-radius:50%}
+.gift-box.open .box-lid{transform:rotateX(90deg)}
+.gift-box.open::after{content:"✨💖🎉";position:absolute;top:-40px;left:50%;transform:translateX(-50%);font-size:34px;animation:sparklePop .9s ease forwards}
+@keyframes sparklePop{0%{opacity:0;transform:translate(-50%,8px) scale(.6)}50%{opacity:1;transform:translate(-50%,-8px) scale(1.2)}100%{opacity:0;transform:translate(-50%,-36px) scale(.8)}}
+/* Photo frame */
+.photo-frame{position:relative;width:300px;height:300px;margin:40px auto;border:10px solid #fff;border-radius:32px;overflow:hidden;box-shadow:0 0 28px rgba(255,255,255,.6);display:none;opacity:0;transition:opacity .9s ease}
+.photo-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease-in-out}
+.photo-frame img.active{opacity:1;z-index:2}
+.photo-frame img.floaty{animation:floatPhoto 6s ease-in-out infinite alternate}
+@keyframes floatPhoto{from{transform:scale(1) translate(0,0)}to{transform:scale(1.03) translate(6px,-4px)}}
+/* typing text */
+.typing-wrap{width:90%;max-width:760px;margin:18px auto 0;text-align:center;font-size:18px;color:#fff;min-height:48px}
+.typing-cursor{display:inline-block;width:2px;height:1.1em;background:#fff;margin-left:6px;vertical-align:middle;animation:blink 800ms steps(2) infinite}
+@keyframes blink{50%{opacity:0}100%{opacity:1}}
+/* scroll arrow */
+.scroll-arrow{width:36px;height:36px;border-radius:18px;border:2px solid rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;margin:14px auto 40px;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s;cursor:pointer}
+.scroll-arrow.show{opacity:1;transform:translateY(0);animation:arrowBounce 1.2s infinite}
+.scroll-arrow svg{width:18px;height:18px;fill:rgba(255,255,255,.95)}
+@keyframes arrowBounce{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
+/* video section */
+.video-section{width:100%;display:flex;justify-content:center;align-items:center;margin-top:260px;padding-bottom:160px;position:relative}
+.film-frame{display:flex;align-items:center;justify-content:center;background:#000;padding:20px;border-radius:20px;box-shadow:0 0 40px rgba(0,0,0,.4)}
+.film-reel{width:26px;height:220px;background:#222;border-radius:8px;margin:0 10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:10px 0}
+.film-hole{width:10px;height:10px;background:#555;border-radius:50%;margin:auto}
+.video-section video{width:340px;max-width:86%;border-radius:16px;box-shadow:0 0 28px rgba(255,255,255,.38)}
+</style>
+</head>
+<body>
+<div id="overlay">
+  <div class="cake-wrap" id="cakeWrap">
+    <img src="cakee.png" alt="Birthday Cake" class="cake-img">
+    <div class="flame" id="flame"></div>
+  </div>
+  <div class="instruction">Click the cake to blow out the candles ✨</div>
+</div>
+
+<div id="stage">
+  <div class="float-wrap" id="floatWrap"></div>
+  <header><h1>🎂 Happy Birthday, Yena! 🎀</h1></header>
+  <div class="gift-box" id="giftBox"><div class="box-lid"></div><div class="box-body"></div><div class="ribbon-vert"></div><div class="ribbon-horiz"></div><div class="bow"><div class="knot"></div></div></div>
+  <div class="photo-frame" id="photoFrame"><img src="1b.jpg" class="active floaty" alt="Yena photo"></div>
+  <div class="typing-wrap" id="typingWrap"></div>
+  <div id="scrollArrow" class="scroll-arrow"><svg viewBox="0 0 24 24"><path d="M12 16.5l-6-6h12z"/></svg></div>
+  <div class="video-section" id="videoSection"><div class="film-frame"><div class="film-reel"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div></div><video id="yenaVideo" src="Yenavid.mp4" muted playsinline preload="auto" loop></video><div class="film-reel"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div></div></div></div>
+</div>
+
+<audio id="song" src="HPBDKo.mp3" preload="auto"></audio>
+
 <script>
-/* Elements */
-const overlay = document.getElementById('overlay');
-const cakeWrap = document.getElementById('cakeWrap');
-const flame = document.getElementById('flame');
-const stage = document.getElementById('stage');
-const song = document.getElementById('song');
-const floatWrap = document.getElementById('floatWrap');
-const giftBox = document.getElementById('giftBox');
-const photoFrame = document.getElementById('photoFrame');
-const typingWrap = document.getElementById('typingWrap');
-const scrollArrow = document.getElementById('scrollArrow');
-const yenaVideo = document.getElementById('yenaVideo');
-
-let lit = true;
-
-/* Blow out overlay with flame disappears instantly */
-cakeWrap.addEventListener('click', blowOut);
-cakeWrap.addEventListener('keydown', (e) => { if(e.code==='Enter'||e.code==='Space') blowOut(); });
-
-function blowOut() {
-  if (!lit) return;
-  lit = false;
-  // remove flame immediately
-  flame.remove();
-
-  // create smoke slightly after
-  setTimeout(() => {
-    for(let i=0;i<3;i++){
-      const s = document.createElement('div');
-      s.className='smoke';
-      s.style.animationDelay = `${i*0.28}s`;
-      cakeWrap.appendChild(s);
-      s.addEventListener('animationend', ()=>s.remove());
-    }
-  },220);
-
-  // remove overlay and show stage
-  setTimeout(() => {
-    overlay.style.display='none';
-    stage.style.display='block';
-    startFloating();
-    startGlitter();
-    // play birthday song
-    song.play().catch(()=>{});
-    // video will only play on scroll arrow click
-  }, 200);
-}
-
-/* Floating icons */
-const icons = ['🎈','💖','⭐','🎀','✨'];
-function spawnIcon(){ const el=document.createElement('i'); el.textContent=icons[Math.floor(Math.random()*icons.length)]; el.style.left=Math.random()*90+'%'; el.style.animationDuration=(6+Math.random()*8)+'s'; floatWrap.appendChild(el); el.addEventListener('animationend',()=>el.remove()); }
-function startFloating(){ for(let i=0;i<10;i++) spawnIcon(); setInterval(spawnIcon,900); }
-function startGlitter(){ for(let i=0;i<60;i++){ const g=document.createElement('div'); g.className='glitter'; g.style.left=Math.random()*100+'%'; g.style.top=Math.random()*100+'%'; g.style.animationDelay=Math.random()*3+'s'; stage.appendChild(g); } }
-
-/* Gift reveal */
-giftBox.addEventListener('click', openGift);
-giftBox.addEventListener('keydown', (e)=>{ if(e.code==='Enter'||e.code==='Space') openGift(); });
-
-function openGift(){
-  if(giftBox.classList.contains('open')) return;
-  giftBox.classList.add('open');
-  setTimeout(()=>{
-    giftBox.style.display='none';
-    photoFrame.style.display='block';
-    setTimeout(()=>{ photoFrame.style.opacity='1'; },60);
-    startPhotoCycle();
-    setTimeout(()=> startTyping(), 400);
-  },800);
-}
-
-/* Photo slideshow */
+const overlay=document.getElementById('overlay'),cakeWrap=document.getElementById('cakeWrap'),flame=document.getElementById('flame'),stage=document.getElementById('stage'),song=document.getElementById('song'),floatWrap=document.getElementById('floatWrap'),giftBox=document.getElementById('giftBox'),photoFrame=document.getElementById('photoFrame'),typingWrap=document.getElementById('typingWrap'),scrollArrow=document.getElementById('scrollArrow'),yenaVideo=document.getElementById('yenaVideo');
+let lit=true;
+cakeWrap.addEventListener('click',()=>{if(!lit)return;lit=false;flame.remove();setTimeout(()=>{for(let i=0;i<3;i++){const s=document.createElement('div');s.className='smoke';s.style.animationDelay=`${i*0.28}s`;cakeWrap.appendChild(s);s.addEventListener('animationend',()=>s.remove());}},220);setTimeout(()=>{overlay.style.display='none';stage.style.display='block';startFloating();startGlitter();song.play().catch(()=>{});},200);});
+function spawnIcon(){const el=document.createElement('i');el.textContent=['🎈','💖','⭐','🎀','✨'][Math.floor(Math.random()*5)];el.style.left=Math.random()*90+'%';el.style.animationDuration=(6+Math.random()*8)+'s';floatWrap.appendChild(el);el.addEventListener('animationend',()=>el.remove());}
+function startFloating(){for(let i=0;i<10;i++)spawnIcon();setInterval(spawnIcon,900);}
+function startGlitter(){for(let i=0;i<60;i++){const g=document.createElement('div');g.className='glitter';g.style.left=Math.random()*100+'%';g.style.top=Math.random()*100+'%';g.style.animationDelay=Math.random()*3+'s';stage.appendChild(g);}}
+giftBox.addEventListener('click',()=>{if(giftBox.classList.contains('open'))return;giftBox.classList.add('open');setTimeout(()=>{giftBox.style.display='none';photoFrame.style.display='block';setTimeout(()=>photoFrame.style.opacity='1',60);startPhotoCycle();setTimeout(()=>startTyping(),400);},800);});
 const photos=["1a.jpg","1b.jpg","1c.jpg","1d.jpg","1e.jpg","1f.jpg"];
-let currentRound=[], roundIndex=0, cycleTimer=null;
-function shuffle(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
-let firstRoundDone=false;
-function prepareRound(){ if(!firstRoundDone){ const rest=photos.filter(p=>p!=="1b.jpg"); const shuffled=shuffle(rest); currentRound=['1b.jpg',...shuffled]; firstRoundDone=true; } else { currentRound=shuffle(photos.slice()); } roundIndex=0; }
-function startPhotoCycle(){
-  if(cycleTimer) clearInterval(cycleTimer);
-  prepareRound();
-  roundIndex=1;
-  cycleTimer=setInterval(()=>{
-    if(roundIndex>=currentRound.length){ prepareRound(); roundIndex=0; }
-    crossfadeTo(currentRound[roundIndex]);
-    roundIndex++;
-  },2600);
-}
-function crossfadeTo(src){
-  const newImg=document.createElement('img');
-  newImg.src=src;
-  newImg.className='active floaty';
-  newImg.style.opacity='0';
-  photoFrame.appendChild(newImg);
-  requestAnimationFrame(()=> newImg.style.opacity='1');
-  setTimeout(()=>{
-    const imgs=photoFrame.querySelectorAll('img');
-    if(imgs.length>1){ imgs[0].classList.remove('active'); setTimeout(()=>{ if(imgs[0]) imgs[0].remove(); },1200); }
-  },60);
-}
-
-/* Typing effect */
-const koreanText="예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";
-let typingSpeed=38;
-function startTyping(){
-  typingWrap.setAttribute('aria-hidden','false');
-  typingWrap.innerHTML='';
-  let i=0;
-  const cursor=document.createElement('span');
-  cursor.className='typing-cursor';
-  typingWrap.appendChild(cursor);
-  const textNode=document.createElement('span');
-  typingWrap.insertBefore(textNode,cursor);
-  function step(){
-    if(i<koreanText.length){ textNode.textContent+=koreanText[i]; i++; setTimeout(step, typingSpeed); }
-    else{ cursor.remove(); showScrollArrow(); }
-  }
-  step();
-}
-
-/* Scroll arrow */
-function showScrollArrow(){
-  scrollArrow.style.display='flex';
-  setTimeout(()=> scrollArrow.classList.add('show'),60);
-  scrollArrow.addEventListener('click', ()=>{
-    document.querySelector('#videoSection').scrollIntoView({behavior:'smooth', block:'center'});
-    // play video only after scroll click
-    yenaVideo.play().catch(()=>{ document.body.addEventListener('click',()=>{yenaVideo.play().catch(()=>{});},{once:true}); });
-  });
-  scrollArrow.addEventListener('keydown', (e)=>{ if(e.code==='Enter'||e.code==='Space') scrollArrow.click(); });
-}
+let currentRound=[],roundIndex=0,cycleTimer=null,firstRoundDone=false;
+function shuffle(a){const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function prepareRound(){if(!firstRoundDone){const rest=photos.filter(p=>p!=="1b.jpg");currentRound=['1b.jpg',...shuffle(rest)];firstRoundDone=true;}else{currentRound=shuffle(photos.slice());}roundIndex=0;}
+function startPhotoCycle(){if(cycleTimer)clearInterval(cycleTimer);prepareRound();roundIndex=1;cycleTimer=setInterval(()=>{if(roundIndex>=currentRound.length){prepareRound();roundIndex=0;}crossfadeTo(currentRound[roundIndex]);roundIndex++;},2600);}
+function crossfadeTo(src){const newImg=document.createElement('img');newImg.src=src;newImg.className='active floaty';newImg.style.opacity='0';photoFrame.appendChild(newImg);requestAnimationFrame(()=>newImg.style.opacity='1');setTimeout(()=>{const imgs=photoFrame.querySelectorAll('img');if(imgs.length>1){imgs[0].classList.remove('active');setTimeout(()=>{if(imgs[0])imgs[0].remove();},1200);}},60);}
+const koreanText="예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";let typingSpeed=38;
+function startTyping(){typingWrap.setAttribute('aria-hidden','false');typingWrap.innerHTML='';let i=0;const cursor=document.createElement('span');cursor.className='typing-cursor';typingWrap.appendChild(cursor);const textNode=document.createElement('span');typingWrap.insertBefore(textNode,cursor);function step(){if(i<koreanText.length){textNode.textContent+=koreanText[i];i++;setTimeout(step,typingSpeed);}else{cursor.remove();showScrollArrow();}}step();}
+function showScrollArrow(){scrollArrow.style.display='flex';setTimeout(()=>scrollArrow.classList.add('show'),60);scrollArrow.addEventListener('click',()=>{document.querySelector('#videoSection').scrollIntoView({behavior:'smooth', block:'center'});yenaVideo.play().catch(()=>{document.body.addEventListener('click',()=>{yenaVideo.play().catch(()=>{});},{once:true});});});scrollArrow.addEventListener('keydown',(e)=>{if(e.code==='Enter'||e.code==='Space')scrollArrow.click();});}
 </script>
+</body>
+</html>
