@@ -6,7 +6,7 @@
 <title>🎂 Happy Birthday Yena 💖</title>
 <style>
 :root{--dark-bg:#0b0b0f;--pink-bg:linear-gradient(135deg,#ffb7ef 0%,#e1b4ff 100%)}
-html,body{height:100%;margin:0;font-family:"Poppins",system-ui,sans-serif;background:var(--dark-bg);color:#a31234;overflow-x:hidden}
+html,body{height:100%;margin:0;font-family:"Poppins",system-ui,sans-serif;background:var(--dark-bg);color:#fff;overflow-x:hidden}
 /* Overlay cake */
 #overlay{position:fixed;inset:0;background:rgba(2,6,23,0.9);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;transition:opacity .9s ease}
 .cake-wrap{position:relative;cursor:pointer;animation:pulse 2.5s infinite}
@@ -21,12 +21,7 @@ html,body{height:100%;margin:0;font-family:"Poppins",system-ui,sans-serif;backgr
 /* Stage */
 #stage{display:none;position:relative;min-height:220vh;width:100%;background:var(--pink-bg);overflow-x:hidden;transition:background .9s ease}
 header{text-align:center;margin-top:80px;z-index:2}
-header h1{header h1 {
-  font-size:36px;
-  color:#fff200; /* vàng nổi bật */
-  text-shadow:
-    2px 2px 4px #a500a5,  /* viền tím */
-    0 0 12px #fff8c5;      /* ánh sáng nhẹ */}
+header h1{font-size:36px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,.6)}
 /* Floating icons + glitter */
 .float-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
 .float-wrap i{position:absolute;font-size:28px;opacity:.85;animation:floatUp linear forwards}
@@ -77,31 +72,17 @@ header h1{header h1 {
     <img src="cakee.png" alt="Birthday Cake" class="cake-img">
     <div class="flame" id="flame"></div>
   </div>
-  <div class="instruction">Click the cake to blow out the candle✨</div>
+  <div class="instruction">Click the cake to blow out the candles ✨</div>
 </div>
 
 <div id="stage">
   <div class="float-wrap" id="floatWrap"></div>
-  <header><h1>🎂HAPPY BIRTHDAY, Yena!🎀</h1></header>
-  <div class="gift-box" id="giftBox">
-    <div class="box-lid">
-    </div><div class="box-body">
-      
-    </div>
-    <div class="ribbon-vert"></div><div class="ribbon-horiz"></div><div class="bow"><div class="knot"></div></div></div>
+  <header><h1>🎂 Happy Birthday, Yena! 🎀</h1></header>
+  <div class="gift-box" id="giftBox"><div class="box-lid"></div><div class="box-body"></div><div class="ribbon-vert"></div><div class="ribbon-horiz"></div><div class="bow"><div class="knot"></div></div></div>
   <div class="photo-frame" id="photoFrame"><img src="1b.jpg" class="active floaty" alt="Yena photo"></div>
   <div class="typing-wrap" id="typingWrap"></div>
   <div id="scrollArrow" class="scroll-arrow"><svg viewBox="0 0 24 24"><path d="M12 16.5l-6-6h12z"/></svg></div>
-  <div class="video-section" id="videoSection">
-    <div class="film-frame"><div class="film-reel"><div class="film-hole">
-      
-    </div>
-      <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole">
-        
-      </div>
-      <div class="film-hole"></div></div><video id="yenaVideo" src="Yenavid.mp4" muted playsinline preload="auto" loop></video>
-      <div class="film-reel"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
-        <div class="film-hole"></div></div></div></div>
+  <div class="video-section" id="videoSection"><div class="film-frame"><div class="film-reel"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div></div><video id="yenaVideo" src="Yenavid.mp4" muted playsinline preload="auto" loop></video><div class="film-reel"><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div></div></div></div>
 </div>
 
 <audio id="song" src="HPBDKo.mp3" preload="auto"></audio>
@@ -120,7 +101,7 @@ function shuffle(a){const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=
 function prepareRound(){if(!firstRoundDone){const rest=photos.filter(p=>p!=="1b.jpg");currentRound=['1b.jpg',...shuffle(rest)];firstRoundDone=true;}else{currentRound=shuffle(photos.slice());}roundIndex=0;}
 function startPhotoCycle(){if(cycleTimer)clearInterval(cycleTimer);prepareRound();roundIndex=1;cycleTimer=setInterval(()=>{if(roundIndex>=currentRound.length){prepareRound();roundIndex=0;}crossfadeTo(currentRound[roundIndex]);roundIndex++;},2600);}
 function crossfadeTo(src){const newImg=document.createElement('img');newImg.src=src;newImg.className='active floaty';newImg.style.opacity='0';photoFrame.appendChild(newImg);requestAnimationFrame(()=>newImg.style.opacity='1');setTimeout(()=>{const imgs=photoFrame.querySelectorAll('img');if(imgs.length>1){imgs[0].classList.remove('active');setTimeout(()=>{if(imgs[0])imgs[0].remove();},1200);}},60);}
-const koreanText="예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";let typingSpeed=45;
+const koreanText="예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";let typingSpeed=38;
 function startTyping(){typingWrap.setAttribute('aria-hidden','false');typingWrap.innerHTML='';let i=0;const cursor=document.createElement('span');cursor.className='typing-cursor';typingWrap.appendChild(cursor);const textNode=document.createElement('span');typingWrap.insertBefore(textNode,cursor);function step(){if(i<koreanText.length){textNode.textContent+=koreanText[i];i++;setTimeout(step,typingSpeed);}else{cursor.remove();showScrollArrow();}}step();}
 function showScrollArrow(){scrollArrow.style.display='flex';setTimeout(()=>scrollArrow.classList.add('show'),60);scrollArrow.addEventListener('click',()=>{document.querySelector('#videoSection').scrollIntoView({behavior:'smooth', block:'center'});yenaVideo.play().catch(()=>{document.body.addEventListener('click',()=>{yenaVideo.play().catch(()=>{});},{once:true});});});scrollArrow.addEventListener('keydown',(e)=>{if(e.code==='Enter'||e.code==='Space')scrollArrow.click();});}
 </script>
