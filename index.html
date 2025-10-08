@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Chúc mừng sinh nhật bé Yena 🎂</title>
+  <title>🎂 Chúc mừng sinh nhật bé Yena 💖</title>
   <style>
     :root {
       --dark-bg: #0b0b0f;
@@ -16,10 +16,10 @@
       font-family: "Poppins", system-ui, sans-serif;
       background: var(--dark-bg);
       color: #fff;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
-    /* Overlay (cake scene) */
+    /* Overlay */
     #overlay {
       position: fixed;
       inset: 0;
@@ -57,7 +57,7 @@
 
     .flame {
       position: absolute;
-      top: 23%; /* nâng lên một chút để ngay đầu nến */
+      top: 23%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 28px;
@@ -73,13 +73,11 @@
       50% { transform: translate(-50%,-52%) scale(1.05); opacity: 0.9; }
     }
 
-    /* Xịt lên nhẹ nhàng */
     @keyframes flameUp {
       0%, 100% { top: 23%; height: 42px; }
       50% { top: 21.5%; height: 48px; }
     }
 
-    /* Hiệu ứng khói mờ sau khi thổi */
     .smoke {
       position: absolute;
       top: 22%;
@@ -106,13 +104,13 @@
       font-size: 18px;
     }
 
-    /* Main stage (after blow) */
+    /* Main stage */
     #stage {
       display: none;
       position: relative;
-      height: 100vh;
+      min-height: 200vh; /* để có thể scroll xuống xem video */
       width: 100%;
-      overflow: hidden;
+      overflow-x: hidden;
       background: var(--pink-bg);
       transition: background 2s ease;
     }
@@ -172,6 +170,48 @@
       0%, 100% { opacity: 0; transform: scale(0.5); }
       50% { opacity: 1; transform: scale(1.3); }
     }
+
+    /* Image frame */
+    .photo-frame {
+      width: 260px;
+      height: 260px;
+      margin: 60px auto;
+      border: 8px solid #fff;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1s ease;
+      position: absolute;
+    }
+
+    /* Video */
+    .video-section {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 80px;
+      padding-bottom: 40px;
+    }
+
+    .video-section video {
+      width: 300px;
+      max-width: 80%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.4);
+    }
   </style>
 </head>
 <body>
@@ -184,18 +224,28 @@
     <div class="instruction">Nhấp vào bánh để thổi nến ✨</div>
   </div>
 
-  <!-- Main stage -->
+  <!-- Main -->
   <div id="stage">
     <div class="float-wrap" id="floatWrap"></div>
     <header>
       <h1>🎂 Chúc mừng sinh nhật bé Yena! 🎀</h1>
       <p>Chúc bé luôn vui vẻ, khỏe mạnh và đáng yêu như Cinnamoroll 💖</p>
     </header>
+
+    <!-- Hình ảnh -->
+    <div class="photo-frame" id="photoFrame">
+      <img src="1a.jpg" id="photo" alt="Yena">
+    </div>
+
+    <!-- Video -->
+    <div class="video-section">
+      <video src="Yenavid.mp4" muted autoplay loop playsinline></video>
+    </div>
   </div>
 
-  <!-- Public sounds -->
+  <!-- Âm thanh -->
   <audio id="puffSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_71e57dcfb5.mp3?filename=candle-blow-out-1.mp3" preload="auto"></audio>
-  <audio id="song" src="https://cdn.pixabay.com/download/audio/2023/07/04/audio_f9f8b1b785.mp3?filename=happy-birthday-korean-children-15614.mp3" preload="auto"></audio>
+  <audio id="song" src="HPBDKo.mp3" preload="auto"></audio>
 
   <script>
     const overlay = document.getElementById('overlay');
@@ -205,6 +255,7 @@
     const puff = document.getElementById('puffSound');
     const song = document.getElementById('song');
     const floatWrap = document.getElementById('floatWrap');
+    const photo = document.getElementById('photo');
     let lit = true;
 
     cakeWrap.addEventListener('click', blowOut);
@@ -216,7 +267,7 @@
       flame.style.transition = 'opacity 0.6s ease';
       flame.style.opacity = '0';
 
-      // tạo hiệu ứng khói bay lên sau 200ms
+      // khói
       setTimeout(() => {
         for (let i = 0; i < 3; i++) {
           const smoke = document.createElement('div');
@@ -237,37 +288,48 @@
           document.addEventListener('click', playSong, { once: true });
           startFloating();
           startGlitter();
+          startPhotoCycle();
         }, 900);
       }, 800);
     }
 
-    // Floating icons
-    const icons = ['🎈', '💖', '⭐', '🎀', '✨'];
-    function spawnIcon() {
-      const el = document.createElement('i');
-      el.textContent = icons[Math.floor(Math.random() * icons.length)];
-      el.style.left = Math.random() * 90 + '%';
-      el.style.animationDuration = 6 + Math.random() * 8 + 's';
+    const icons = ['🎈','💖','⭐','🎀','✨'];
+    function spawnIcon(){
+      const el=document.createElement('i');
+      el.textContent=icons[Math.floor(Math.random()*icons.length)];
+      el.style.left=Math.random()*90+'%';
+      el.style.animationDuration=6+Math.random()*8+'s';
       floatWrap.appendChild(el);
-      el.addEventListener('animationend', () => el.remove());
+      el.addEventListener('animationend',()=>el.remove());
     }
-
-    function startFloating() {
-      for (let i = 0; i < 10; i++) spawnIcon();
-      setInterval(spawnIcon, 800);
+    function startFloating(){
+      for(let i=0;i<10;i++)spawnIcon();
+      setInterval(spawnIcon,800);
     }
-
-    // Glitter sparkles
-    function startGlitter() {
-      const count = 60;
-      for (let i = 0; i < count; i++) {
-        const g = document.createElement('div');
-        g.className = 'glitter';
-        g.style.left = Math.random() * 100 + '%';
-        g.style.top = Math.random() * 100 + '%';
-        g.style.animationDelay = Math.random() * 3 + 's';
+    function startGlitter(){
+      const count=60;
+      for(let i=0;i<count;i++){
+        const g=document.createElement('div');
+        g.className='glitter';
+        g.style.left=Math.random()*100+'%';
+        g.style.top=Math.random()*100+'%';
+        g.style.animationDelay=Math.random()*3+'s';
         stage.appendChild(g);
       }
+    }
+
+    // Ảnh luân phiên
+    const photos = ["1a.jpg","1b.jpg","1c.jpg","1d.jpg","1e.jpg","1f.jpg"];
+    let photoIndex = 0;
+    function startPhotoCycle() {
+      setInterval(() => {
+        photo.style.opacity = 0;
+        setTimeout(() => {
+          photoIndex = (photoIndex + 1) % photos.length;
+          photo.src = photos[photoIndex];
+          photo.style.opacity = 1;
+        }, 1000);
+      }, 3000);
     }
   </script>
 </body>
