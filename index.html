@@ -9,243 +9,116 @@
   --dark-bg: #0b0b0f;
   --pink-bg: linear-gradient(135deg, #ffb7ef 0%, #e1b4ff 100%);
 }
-
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: "Poppins", system-ui, sans-serif;
-  background: var(--dark-bg);
-  color: #fff;
-  overflow-x: hidden;
+html,body {
+  height:100%;margin:0;
+  font-family:"Poppins",sans-serif;
+  background:var(--dark-bg);
+  color:#fff;
+  overflow-x:hidden;
 }
 
-/* Overlay (cake) */
+/* === Overlay Cake === */
 #overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.9);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  transition: opacity 1s ease;
+  position:fixed;inset:0;
+  background:rgba(2,6,23,0.9);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:100;transition:opacity 1s ease;
+}
+.cake-wrap{position:relative;cursor:pointer;animation:pulse 2.5s infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
+.cake-img{width:320px;max-width:80vw;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,0.6);}
+.flame{
+  position:absolute;top:23%;left:50%;transform:translate(-50%,-50%);
+  width:28px;height:42px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff8c5,#ffc46a,#ff7b6b);
+  box-shadow:0 0 40px #ffb86b,0 0 90px rgba(255,140,180,0.3);
+  animation:flicker 1.2s infinite ease-in-out,flameUp 2s infinite ease-in-out;
+}
+@keyframes flicker{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-52%) scale(1.05);}}
+@keyframes flameUp{0%,100%{top:23%;height:42px;}50%{top:21.5%;height:48px;}}
+.smoke{position:absolute;top:22%;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.6),rgba(200,200,200,0.3),rgba(0,0,0,0));opacity:0.8;filter:blur(2px);animation:smokeRise 2.4s ease-out forwards;}
+@keyframes smokeRise{0%{transform:translate(-50%,0) scale(0.6);opacity:0.8;}40%{transform:translate(-50%,-40px) scale(1);opacity:0.5;}100%{transform:translate(-50%,-90px) scale(1.3);opacity:0;}}
+.instruction{color:#fff;margin-top:20px;font-size:18px;}
+
+/* === Stage === */
+#stage{display:none;position:relative;min-height:200vh;width:100%;background:var(--pink-bg);overflow-x:hidden;transition:background 2s ease;}
+header{text-align:center;margin-top:80px;z-index:2;}
+header h1{font-size:36px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,0.6);}
+header p{color:#fff;font-size:20px;margin-top:10px;}
+
+/* Floating icons + glitter */
+.float-wrap{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1;}
+.float-wrap i{position:absolute;font-size:28px;opacity:0.8;animation:floatUp linear forwards;}
+@keyframes floatUp{from{transform:translateY(100vh);}to{transform:translateY(-10vh);opacity:0;}}
+.glitter{position:absolute;width:3px;height:3px;background:white;border-radius:50%;opacity:0.8;animation:sparkle 3s infinite ease-in-out;}
+@keyframes sparkle{0%,100%{opacity:0;transform:scale(0.5);}50%{opacity:1;transform:scale(1.3);}}
+
+/* === Gift box (pure CSS) === */
+.gift-box{
+  width:140px;height:140px;margin:60px auto;
+  position:relative;cursor:pointer;
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.box-body{
+  width:100%;height:70%;
+  background:#ff7bbb;
+  border-radius:0 0 10px 10px;
+  position:absolute;bottom:0;left:0;
+  box-shadow:0 8px 16px rgba(255,0,150,0.2);
+}
+.box-lid{
+  width:100%;height:30%;
+  background:#ff91c2;
+  border-radius:10px 10px 0 0;
+  position:absolute;top:0;left:0;
+  transform-origin:bottom center;
+  transition:transform 0.6s ease;
+}
+.ribbon-vert{
+  position:absolute;left:50%;top:0;transform:translateX(-50%);
+  width:20px;height:100%;background:#fff;border-radius:10px;
+}
+.ribbon-horiz{
+  position:absolute;top:35%;left:0;
+  width:100%;height:20px;background:#fff;border-radius:10px;
+}
+.gift-box.open .box-lid{transform:rotateX(90deg);}
+.gift-box.open::after{
+  content:"✨💖🎉";
+  position:absolute;top:-30px;left:50%;
+  transform:translateX(-50%);
+  font-size:28px;
+  animation:sparklePop 1.2s ease forwards;
+}
+@keyframes sparklePop{
+  0%{opacity:0;transform:translate(-50%,10px) scale(0.5);}
+  50%{opacity:1;transform:translate(-50%,-10px) scale(1.2);}
+  100%{opacity:0;transform:translate(-50%,-40px) scale(0.8);}
 }
 
-.cake-wrap {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  animation: pulse 2.5s infinite;
+/* === Photo Frame === */
+.photo-frame{
+  position:relative;
+  width:260px;height:260px;margin:60px auto;
+  border:8px solid #fff;border-radius:30px;overflow:hidden;
+  box-shadow:0 0 20px rgba(255,255,255,0.6);
+  display:none;opacity:0;transition:opacity 1s ease;
 }
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
+.photo-frame img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 2.5s ease-in-out;
 }
+.photo-frame img.active{opacity:1;z-index:2;}
 
-.cake-img {
-  width: 320px;
-  max-width: 80vw;
-  border-radius: 18px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-}
-
-.flame {
-  position: absolute;
-  top: 23%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 28px;
-  height: 42px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff8c5, #ffc46a, #ff7b6b);
-  box-shadow: 0 0 40px #ffb86b, 0 0 90px rgba(255,140,180,0.3);
-  animation: flicker 1.2s infinite ease-in-out, flameUp 2s infinite ease-in-out;
-}
-@keyframes flicker {
-  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-  50% { transform: translate(-50%,-52%) scale(1.05); opacity: 0.9; }
-}
-@keyframes flameUp {
-  0%, 100% { top: 23%; height: 42px; }
-  50% { top: 21.5%; height: 48px; }
-}
-
-.smoke {
-  position: absolute;
-  top: 22%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.6), rgba(200,200,200,0.3), rgba(0,0,0,0));
-  opacity: 0.8;
-  filter: blur(2px);
-  animation: smokeRise 2.4s ease-out forwards;
-}
-@keyframes smokeRise {
-  0% { transform: translate(-50%, 0) scale(0.6); opacity: 0.8; }
-  40% { transform: translate(-50%, -40px) scale(1); opacity: 0.5; }
-  100% { transform: translate(-50%, -90px) scale(1.3); opacity: 0; }
-}
-
-.instruction {
-  color: #fff;
-  margin-top: 20px;
-  font-size: 18px;
-}
-
-/* Main stage */
-#stage {
-  display: none;
-  position: relative;
-  min-height: 200vh;
-  width: 100%;
-  overflow-x: hidden;
-  background: var(--pink-bg);
-  transition: background 2s ease;
-}
-
-header {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  margin-top: 80px;
-}
-header h1 {
-  font-size: 36px;
-  color: #fff;
-  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.6);
-}
-header p {
-  color: #fff;
-  font-size: 20px;
-  margin-top: 10px;
-}
-
-/* Floating icons */
-.float-wrap {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-.float-wrap i {
-  position: absolute;
-  font-size: 28px;
-  opacity: 0.8;
-  animation: floatUp linear forwards;
-}
-@keyframes floatUp {
-  from { transform: translateY(100vh) scale(0.8); opacity: 1; }
-  to { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-}
-
-/* Glitter */
-.glitter {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: white;
-  border-radius: 50%;
-  opacity: 0.8;
-  animation: sparkle 3s infinite ease-in-out;
-}
-@keyframes sparkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.3); }
-}
-
-/* Gift box */
-.gift-box {
-  width: 200px;
-  margin: 60px auto;
-  cursor: pointer;
-  animation: float 4s ease-in-out infinite;
-  position: relative;
-  z-index: 5;
-}
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-.gift-box img {
-  width: 100%;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.5);
-  transition: transform 0.6s ease, opacity 0.6s ease;
-}
-.gift-box.open img {
-  transform: rotateX(90deg) scale(0.5);
-  opacity: 0;
-}
-.gift-box.open::after {
-  content: "✨💖🎉";
-  position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 30px;
-  animation: sparklePop 1.2s ease forwards;
-}
-@keyframes sparklePop {
-  0% { opacity: 0; transform: translate(-50%, 10px) scale(0.5); }
-  50% { opacity: 1; transform: translate(-50%, -10px) scale(1.2); }
-  100% { opacity: 0; transform: translate(-50%, -40px) scale(0.8); }
-}
-
-/* Photo frame */
-.photo-frame {
-  position: relative;
-  width: 260px;
-  height: 260px;
-  margin: 60px auto;
-  border: 8px solid #fff;
-  border-radius: 30px;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-  display: none;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-.photo-frame img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 2.5s ease-in-out;
-}
-.photo-frame img.active {
-  opacity: 1;
-  z-index: 2;
-}
-
-/* Video */
-.video-section {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 80px;
-  padding-bottom: 40px;
-}
-.video-section video {
-  width: 300px;
-  max-width: 80%;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255,255,255,0.4);
-}
+/* === Video === */
+.video-section{width:100%;display:flex;justify-content:center;align-items:center;margin-top:80px;padding-bottom:40px;}
+.video-section video{width:300px;max-width:80%;border-radius:20px;box-shadow:0 0 20px rgba(255,255,255,0.4);}
 </style>
 </head>
 <body>
+
 <!-- Overlay -->
 <div id="overlay">
   <div class="cake-wrap" id="cakeWrap">
@@ -255,22 +128,25 @@ header p {
   <div class="instruction">Click the cake to blow out the candles ✨</div>
 </div>
 
-<!-- Main -->
+<!-- Stage -->
 <div id="stage">
   <div class="float-wrap" id="floatWrap"></div>
   <header>
     <h1>🎂 Happy Birthday, Yena! 🎀</h1>
-    <p>Wishing you joy, health, and the sweetest smiles 💖</p>
+    <p>Wishing you joy, laughter, and the sweetest smiles 💖</p>
   </header>
 
   <!-- Gift box -->
   <div class="gift-box" id="giftBox">
-    <img src="gift.png" alt="Gift Box">
+    <div class="box-lid"></div>
+    <div class="box-body"></div>
+    <div class="ribbon-vert"></div>
+    <div class="ribbon-horiz"></div>
   </div>
 
-  <!-- Photo Frame -->
+  <!-- Photo frame -->
   <div class="photo-frame" id="photoFrame">
-    <img src="1b.jpg" class="active" alt="Yena photo">
+    <img src="1b.jpg" class="active" alt="Yena">
   </div>
 
   <!-- Video -->
@@ -296,20 +172,18 @@ const photoFrame=document.getElementById('photoFrame');
 let lit=true;
 
 cakeWrap.addEventListener('click',blowOut);
-
 function blowOut(){
   if(!lit)return;
   lit=false;
   puff.play().catch(()=>{});
   flame.style.transition='opacity 0.6s ease';
   flame.style.opacity='0';
-  // smoke
   setTimeout(()=>{
     for(let i=0;i<3;i++){
       const s=document.createElement('div');
       s.className='smoke';
       s.style.animationDelay=`${i*0.3}s`;
-      document.getElementById('cakeWrap').appendChild(s);
+      cakeWrap.appendChild(s);
       s.addEventListener('animationend',()=>s.remove());
     }
   },200);
@@ -318,16 +192,15 @@ function blowOut(){
     setTimeout(()=>{
       overlay.style.display='none';
       stage.style.display='block';
-      const playSong=()=>song.play().catch(err=>console.warn("Autoplay blocked:",err));
-      playSong();
-      document.addEventListener('click',playSong,{once:true});
       startFloating();
       startGlitter();
+      const playSong=()=>song.play().catch(()=>{});
+      playSong();document.addEventListener('click',playSong,{once:true});
     },900);
   },800);
 }
 
-// Floating icons
+// floating icons
 const icons=['🎈','💖','⭐','🎀','✨'];
 function spawnIcon(){
   const el=document.createElement('i');
@@ -337,13 +210,9 @@ function spawnIcon(){
   floatWrap.appendChild(el);
   el.addEventListener('animationend',()=>el.remove());
 }
-function startFloating(){
-  for(let i=0;i<10;i++)spawnIcon();
-  setInterval(spawnIcon,800);
-}
+function startFloating(){for(let i=0;i<10;i++)spawnIcon();setInterval(spawnIcon,800);}
 function startGlitter(){
-  const count=60;
-  for(let i=0;i<count;i++){
+  for(let i=0;i<60;i++){
     const g=document.createElement('div');
     g.className='glitter';
     g.style.left=Math.random()*100+'%';
@@ -353,7 +222,7 @@ function startGlitter(){
   }
 }
 
-// Gift reveal
+// gift reveal
 giftBox.addEventListener('click',()=>{
   giftBox.classList.add('open');
   setTimeout(()=>{
@@ -366,24 +235,20 @@ giftBox.addEventListener('click',()=>{
   },900);
 });
 
-// Smooth random photo cycle
-const photoFrameEl=document.getElementById('photoFrame');
+// slideshow
 const photos=["1a.jpg","1b.jpg","1c.jpg","1d.jpg","1e.jpg","1f.jpg"];
 let currentPhoto=0;
-
 function startPhotoCycle(){
   setInterval(()=>{
     const newImg=document.createElement('img');
     let randomIndex;
-    do{
-      randomIndex=Math.floor(Math.random()*photos.length);
-    }while(randomIndex===currentPhoto);
+    do{randomIndex=Math.floor(Math.random()*photos.length);}while(randomIndex===currentPhoto);
     currentPhoto=randomIndex;
     newImg.src=photos[currentPhoto];
     newImg.classList.add('active');
-    photoFrameEl.appendChild(newImg);
+    photoFrame.appendChild(newImg);
     setTimeout(()=>{
-      const imgs=photoFrameEl.querySelectorAll('img');
+      const imgs=photoFrame.querySelectorAll('img');
       if(imgs.length>1){
         imgs[0].classList.remove('active');
         setTimeout(()=>imgs[0].remove(),2000);
