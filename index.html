@@ -16,7 +16,8 @@ html,body{height:100%;margin:0;font-family:"Poppins",system-ui,sans-serif;backgr
 .cake-wrap{position:relative;cursor:pointer;animation:pulse 2.5s infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
 .cake-img{width:360px;max-width:84vw;border-radius:18px;box-shadow:0 24px 70px rgba(0,0,0,.65)}
-.flame{position:absolute;top:23%;left:50%;transform:translate(-50%,-50%);width:30px;height:44px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff8c5,#ffc46a,#ff7b6b);box-shadow:0 0 44px #ffb86b,0 0 100px rgba(255,140,180,.28);animation:flicker 1.2s infinite ease-in-out,flameUp 2s infinite ease-in-out}
+/* flame: transition opacity .5s for fade out */
+.flame{position:absolute;top:23%;left:50%;transform:translate(-50%,-50%);width:30px;height:44px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff8c5,#ffc46a,#ff7b6b);box-shadow:0 0 44px #ffb86b,0 0 100px rgba(255,140,180,.28);animation:flicker 1.2s infinite ease-in-out,flameUp 2s infinite ease-in-out;transition:opacity .5s ease}
 @keyframes flicker{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:1}50%{transform:translate(-50%,-52%) scale(1.05);opacity:.9}}
 @keyframes flameUp{0%,100%{top:23%;height:44px}50%{top:21.5%;height:50px}}
 .smoke{position:absolute;top:22%;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.6),rgba(200,200,200,.3),rgba(0,0,0,0));opacity:.8;filter:blur(2px);animation:smokeRise 2.4s ease-out forwards}
@@ -71,9 +72,9 @@ header h1{font-size:36px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,.6)}
 
 /* film-style video frame */
 .video-section{width:100%;display:flex;justify-content:center;align-items:center;margin-top:260px;padding-bottom:160px;position:relative}
-.film-frame{display:flex;align-items:center;justify-content:center;background:#424b8f;padding:20px;border-radius:20px;box-shadow:0 0 40px rgba(0,0,0,.4)}
-.film-reel{width:26px;height:220px;background:#505bad;border-radius:8px;margin:0 10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:10px 0}
-.film-hole{width:10px;height:10px;background:#7172bf;border-radius:50%;margin:auto}
+.film-frame{display:flex;align-items:center;justify-content:center;background:#000;padding:20px;border-radius:20px;box-shadow:0 0 40px rgba(0,0,0,.4)}
+.film-reel{width:26px;height:220px;background:#222;border-radius:8px;margin:0 10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:10px 0}
+.film-hole{width:10px;height:10px;background:#555;border-radius:50%;margin:auto}
 .video-section video{width:340px;max-width:86%;border-radius:16px;box-shadow:0 0 28px rgba(255,255,255,.38)}
 </style>
 </head>
@@ -124,7 +125,8 @@ header h1{font-size:36px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,.6)}
       <div class="film-reel">
         <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
       </div>
-      <video src="Yenavid.mp4" muted autoplay loop playsinline></video>
+      <!-- video fixed for mobile: muted + playsinline + preload -->
+      <video id="yenaVideo" src="Yenavid.mp4" muted playsinline preload="auto" loop playsinline></video>
       <div class="film-reel">
         <div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div><div class="film-hole"></div>
       </div>
@@ -132,59 +134,151 @@ header h1{font-size:36px;color:#fff;text-shadow:0 2px 8px rgba(255,255,255,.6)}
   </div>
 </div>
 
-<!-- Sounds -->
-<audio id="puffSound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_71e57dcfb5.mp3?filename=candle-blow-out-1.mp3" preload="auto"></audio>
+<!-- Sounds (removed puff as requested) -->
 <audio id="song" src="HPBDKo.mp3" preload="auto"></audio>
 
 <script>
-const overlay=document.getElementById('overlay'),
-cakeWrap=document.getElementById('cakeWrap'),
-flame=document.getElementById('flame'),
-stage=document.getElementById('stage'),
-puff=document.getElementById('puffSound'),
-song=document.getElementById('song'),
-floatWrap=document.getElementById('floatWrap'),
-giftBox=document.getElementById('giftBox'),
-photoFrame=document.getElementById('photoFrame'),
-typingWrap=document.getElementById('typingWrap'),
-scrollArrow=document.getElementById('scrollArrow');
+/* Elements */
+const overlay=document.getElementById('overlay');
+const cakeWrap=document.getElementById('cakeWrap');
+const flame=document.getElementById('flame');
+const stage=document.getElementById('stage');
+const song=document.getElementById('song');
+const floatWrap=document.getElementById('floatWrap');
+const giftBox=document.getElementById('giftBox');
+const photoFrame=document.getElementById('photoFrame');
+const typingWrap=document.getElementById('typingWrap');
+const scrollArrow=document.getElementById('scrollArrow');
+const yenaVideo=document.getElementById('yenaVideo');
+
 let lit=true;
 
+/* Blow out overlay with flame fade .5s and smoke */
 cakeWrap.addEventListener('click',blowOut);
+cakeWrap.addEventListener('keydown',(e)=>{ if(e.code==='Enter' || e.code==='Space') blowOut(); });
+
 function blowOut(){
- if(!lit)return; lit=false;
- puff.play().catch(()=>{});
- flame.style.transition='opacity .6s ease'; flame.style.opacity='0';
- setTimeout(()=>{for(let i=0;i<3;i++){const s=document.createElement('div');s.className='smoke';s.style.animationDelay=i*0.28+'s';cakeWrap.appendChild(s);s.addEventListener('animationend',()=>s.remove());}},200);
- setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.style.display='none';stage.style.display='block';startFloating();startGlitter();song.play().catch(()=>{});},900);},800);
+  if(!lit) return;
+  lit=false;
+  // fade out flame in 0.5s
+  flame.style.opacity = '0';
+  // create smoke slightly after
+  setTimeout(()=>{
+    for(let i=0;i<3;i++){
+      const s = document.createElement('div');
+      s.className = 'smoke';
+      s.style.animationDelay = `${i*0.28}s`;
+      cakeWrap.appendChild(s);
+      s.addEventListener('animationend', ()=> s.remove());
+    }
+  },220);
+  // then remove overlay and show stage
+  setTimeout(()=>{
+    overlay.style.opacity='0';
+    setTimeout(()=>{
+      overlay.style.display='none';
+      stage.style.display='block';
+      startFloating();
+      startGlitter();
+      // play birthday song (user already interacted)
+      song.play().catch(()=>{});
+      // also ensure video will be allowed to play: try play, and attach play on next user click if blocked
+      yenaVideo.play().catch(()=>{ document.body.addEventListener('click',()=>{ yenaVideo.play().catch(()=>{}); },{once:true}); });
+    },900);
+  },600); // ensure flame fade (0.5s) + small margin
 }
 
+/* Floating icons */
 const icons=['🎈','💖','⭐','🎀','✨'];
-function spawnIcon(){const el=document.createElement('i');el.textContent=icons[Math.floor(Math.random()*icons.length)];el.style.left=Math.random()*90+'%';el.style.animationDuration=(6+Math.random()*8)+'s';floatWrap.appendChild(el);el.addEventListener('animationend',()=>el.remove());}
-function startFloating(){for(let i=0;i<10;i++)spawnIcon();setInterval(spawnIcon,900);}
-function startGlitter(){for(let i=0;i<60;i++){const g=document.createElement('div');g.className='glitter';g.style.left=Math.random()*100+'%';g.style.top=Math.random()*100+'%';g.style.animationDelay=Math.random()*3+'s';stage.appendChild(g);}}
+function spawnIcon(){ const el=document.createElement('i'); el.textContent=icons[Math.floor(Math.random()*icons.length)]; el.style.left=Math.random()*90+'%'; el.style.animationDuration=(6+Math.random()*8)+'s'; floatWrap.appendChild(el); el.addEventListener('animationend',()=>el.remove()); }
+function startFloating(){ for(let i=0;i<10;i++) spawnIcon(); setInterval(spawnIcon,900); }
+function startGlitter(){ for(let i=0;i<60;i++){ const g=document.createElement('div'); g.className='glitter'; g.style.left=Math.random()*100+'%'; g.style.top=Math.random()*100+'%'; g.style.animationDelay=Math.random()*3+'s'; stage.appendChild(g); } }
 
+/* Gift reveal */
 giftBox.addEventListener('click',openGift);
+giftBox.addEventListener('keydown',(e)=>{ if(e.code==='Enter' || e.code==='Space') openGift(); });
+
 function openGift(){
- if(giftBox.classList.contains('open'))return;
- giftBox.classList.add('open');
- setTimeout(()=>{giftBox.style.display='none';photoFrame.style.display='block';setTimeout(()=>{photoFrame.style.opacity='1';},60);startPhotoCycle();setTimeout(()=>startTyping(),400);},800);
+  if(giftBox.classList.contains('open')) return;
+  giftBox.classList.add('open');
+  setTimeout(()=>{
+    giftBox.style.display='none';
+    photoFrame.style.display='block';
+    setTimeout(()=>{ photoFrame.style.opacity='1'; },60);
+    startPhotoCycle();
+    setTimeout(()=> startTyping(), 400);
+  },800);
 }
 
+/* Photo slideshow: ensure full round then reshuffle */
 const photos=["1a.jpg","1b.jpg","1c.jpg","1d.jpg","1e.jpg","1f.jpg"];
 let currentRound=[],roundIndex=0,cycleTimer=null;
-function shuffle(a){const arr=a.slice();for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function shuffle(a){ const arr=a.slice(); for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
 let firstRoundDone=false;
-function prepareRound(){if(!firstRoundDone){const rest=photos.filter(p=>p!=="1b.jpg");const shuffled=shuffle(rest);currentRound=['1b.jpg',...shuffled];firstRoundDone=true;}else{currentRound=shuffle(photos.slice());}roundIndex=0;}
-function startPhotoCycle(){if(cycleTimer)clearInterval(cycleTimer);prepareRound();roundIndex=1;cycleTimer=setInterval(()=>{if(roundIndex>=currentRound.length){prepareRound();roundIndex=0;}const nextSrc=currentRound[roundIndex];crossfadeTo(nextSrc);roundIndex++;},2600);}
-function crossfadeTo(src){const newImg=document.createElement('img');newImg.src=src;newImg.className='active floaty';newImg.style.opacity='0';photoFrame.appendChild(newImg);requestAnimationFrame(()=>{newImg.style.opacity='1';});setTimeout(()=>{const imgs=photoFrame.querySelectorAll('img');if(imgs.length>1){imgs[0].classList.remove('active');setTimeout(()=>{if(imgs[0])imgs[0].remove();},1200);}},60);}
+function prepareRound(){ if(!firstRoundDone){ const rest=photos.filter(p=>p!=="1b.jpg"); const shuffled=shuffle(rest); currentRound=['1b.jpg',...shuffled]; firstRoundDone=true; } else { currentRound=shuffle(photos.slice()); } roundIndex=0; }
+function startPhotoCycle(){
+  if(cycleTimer) clearInterval(cycleTimer);
+  prepareRound();
+  // 1b already displayed, so start from index 1
+  roundIndex = 1;
+  cycleTimer = setInterval(()=>{
+    if(roundIndex >= currentRound.length){
+      prepareRound();
+      roundIndex = 0;
+    }
+    crossfadeTo(currentRound[roundIndex]);
+    roundIndex++;
+  },2600);
+}
+function crossfadeTo(src){
+  const newImg = document.createElement('img');
+  newImg.src = src;
+  newImg.className = 'active floaty';
+  newImg.style.opacity = '0';
+  photoFrame.appendChild(newImg);
+  requestAnimationFrame(()=> newImg.style.opacity = '1');
+  setTimeout(()=>{ const imgs = photoFrame.querySelectorAll('img'); if(imgs.length>1){ imgs[0].classList.remove('active'); setTimeout(()=>{ if(imgs[0]) imgs[0].remove(); },1200); } },60);
+}
 
-const koreanText="예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";
-let typingSpeed=38;
-function startTyping(){typingWrap.setAttribute('aria-hidden','false');typingWrap.innerHTML='';let i=0;const cursor=document.createElement('span');cursor.className='typing-cursor';typingWrap.appendChild(cursor);const textNode=document.createElement('span');typingWrap.insertBefore(textNode,cursor);
- function step(){if(i<koreanText.length){textNode.textContent+=koreanText[i];i++;setTimeout(step,typingSpeed);}else{cursor.remove();showScrollArrow();}}step();}
+/* Typing effect (traditional) */
+const koreanText = "예나야, 가족과 함께 따뜻하고 달콤한 생일 보내! 지금처럼 밝고 사랑스러운 예나로 남아줘.";
+let typingSpeed = 38;
+function startTyping(){
+  typingWrap.setAttribute('aria-hidden','false');
+  typingWrap.innerHTML = '';
+  let i = 0;
+  const cursor = document.createElement('span');
+  cursor.className = 'typing-cursor';
+  typingWrap.appendChild(cursor);
+  const textNode = document.createElement('span');
+  typingWrap.insertBefore(textNode, cursor);
+  function step(){
+    if(i < koreanText.length){
+      textNode.textContent += koreanText[i];
+      i++;
+      setTimeout(step, typingSpeed);
+    } else {
+      cursor.remove();
+      showScrollArrow();
+    }
+  }
+  step();
+}
 
-function showScrollArrow(){scrollArrow.style.display='flex';setTimeout(()=>scrollArrow.classList.add('show'),60);scrollArrow.addEventListener('click',()=>{document.querySelector('#videoSection').scrollIntoView({behavior:'smooth',block:'center'});});}
+/* Scroll arrow */
+function showScrollArrow(){
+  scrollArrow.style.display = 'flex';
+  setTimeout(()=> scrollArrow.classList.add('show'), 60);
+  scrollArrow.addEventListener('click', ()=> {
+    document.querySelector('#videoSection').scrollIntoView({behavior:'smooth', block:'center'});
+    // try to play video upon scroll as additional safety for mobile
+    yenaVideo.play().catch(()=>{ document.body.addEventListener('click', ()=>{ yenaVideo.play().catch(()=>{}); }, {once:true}); });
+  });
+  scrollArrow.addEventListener('keydown', (e)=>{ if(e.code==='Enter' || e.code==='Space') scrollArrow.click(); });
+}
+
+/* ensure video will play on mobile after user interaction - attempt once when stage shows */
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState === 'visible'){ /* no-op */ }});
 </script>
 </body>
-</
+</html>
